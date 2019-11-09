@@ -1,0 +1,25 @@
+思路和lintcode中的37题类似。
+
+
+bool Find(int target, vector<vector<int> > array) {
+        int h = array.size();
+        if(0==h){ return false;}
+        int w = array[0].size();
+        if(0==w){ return false;}
+        
+        int col = 0;
+        int row = h-1;
+        while(col<h && row>=0){
+            if(array[row][col]== target){
+                return true;
+            }
+            if(array[row][col]>target){
+                row--;
+            }
+            else{
+                col++;
+            }
+        }
+        
+        return false;
+    }

@@ -1,0 +1,36 @@
+思路：
+从左下角或右上角开始，这里从左下角开始。
+该元素>target，则往上走（横坐标-1），
+当该元素<=target，则往右走。
+遇到相等的元素，则count+1。
+直到超出边界。
+
+时间：O(m+n)
+空间：O(1)
+
+
+代码：
+int searchMatrix(vector<vector<int>> &matrix, int target) {
+        // write your code here
+        int h = matrix.size();
+        if(0==h){ return 0;}
+        int w = matrix[0].size();
+        if(0==w){ return 0;}
+        
+        int col = h-1;
+        int row = 0;
+        int count = 0;
+        
+        while(col>=0 && row<w){
+            if(matrix[col][row]==target){ count++;}
+            
+            if(matrix[col][row]<=target){
+                row++;
+            }
+            else{
+                col--;
+            }
+        }
+        
+        return count;
+    }

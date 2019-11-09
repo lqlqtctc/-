@@ -1,0 +1,36 @@
+题目描述
+定义栈的数据结构，请在该类型中实现一个能够得到栈中所含最小元素的min函数（时间复杂度应为O（1））。
+
+思路：
+时间复杂度为O（1），只能牺牲空间复杂度。
+用两个vector，一个当栈用，一个保存当前的最小值。
+如果push，栈用的那个直接push，保存最小值的那个，保存现在的最小值和新存的数中小的那个。
+如果pop，两个都pop。
+如果min，直接return最小值vector的尾部元素。
+
+
+class Solution {
+public:
+    vector<int> mystack;
+    vector<int> minn;
+    
+    void push(int value) {
+        if(mystack.empty()){
+            minn.push_back(value);
+        }
+        else{
+            minn.push_back(value < mystack.back()? value : mystack.back());
+        }
+        mystack.push_back(value);
+    }
+    void pop() {
+        mystack.pop_back();
+        minn.pop_back();
+    }
+    int top() {
+        return mystack.back();
+    }
+    int min() {
+        return minn.back();
+    }
+};

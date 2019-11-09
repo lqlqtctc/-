@@ -1,0 +1,32 @@
+题目描述
+请实现一个函数，将一个字符串中的每个空格替换成“%20”。例如，当字符串为We Are Happy.则经过替换之后的字符串为We%20Are%20Happy。
+
+考察知识点，数组。
+
+思路： 
+先统计空格数count，
+变换后总长度为length+2*count；
+从原数组结尾开始复制，复制到新的尾部。
+遇上空格则在尾部赋值‘0’‘2’‘%’。
+直到开头。
+
+void replaceSpace(char *str,int length) {
+        int count = 0;
+        
+        for(int i=0; i<length; i++){
+            if(' ' == str[i]){ count++;}
+        }
+        
+        str[length + count*2 + 1] = '/0';
+        for(int i=length+count*2, tmp = length; i>=0; i--, tmp--){
+            if(' '==str[tmp]){
+                str[i--] = '0';
+                str[i--] = '2';
+                str[i] = '%';
+            }
+            else{
+                swap(str[i], str[tmp]);
+            }
+        }
+        
+	}

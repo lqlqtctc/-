@@ -1,0 +1,43 @@
+输入一个链表，按链表从尾到头的顺序返回一个ArrayList
+
+考察：链表
+
+思路：
+递归或栈都可以做这题，但考虑到空间复杂度，决定用链表翻转做。
+先翻转链表，第二次翻转的时候把链表的值push_back进vector。
+
+class Solution {
+public:
+    vector<int> output;
+    
+    vector<int> printListFromTailToHead(ListNode* head) {
+        
+        if(NULL==head){ return output;}
+        
+        head = reverse(head, false);
+        head = reverse(head, true);
+        
+        return output;
+    } 
+    
+    ListNode* reverse(ListNode* head, bool flag){
+        if(NULL==head || NULL==head->next){ return head;}
+        
+        ListNode* pre = NULL;
+        ListNode* cur = head;
+        ListNode* next = head->next;
+        
+        while(NULL!=next){
+            cur->next = pre;
+            pre = cur;
+            if(flag){ output.push_back(cur->val);}
+            cur = next;
+            next = next->next;
+        }
+        
+        cur->next = pre;
+        if(flag){ output.push_back(cur->val);}
+        
+        return cur;
+    }
+};

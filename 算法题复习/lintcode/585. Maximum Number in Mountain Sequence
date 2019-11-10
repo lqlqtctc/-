@@ -1,0 +1,46 @@
+Description
+
+Given a mountain sequence of n integers which increase firstly and then decrease, find the mountain top.
+
+
+
+思路：
+一次遍历其实就能得到结果，但时间复杂度为O(n)。
+
+这时候可以利用山脉形状这种固定结构，很容易想到二分法，取中点，再判断peak在左边还是右边。直到判断peak不在左边也不在右边，则当前点为peak点。
+所以用双指针，当双指针重叠时，该点为peak点。
+peak点的特征，左边小于peak或者左边没有，同时，右边小于peak或者没有。
+
+关于二分法，二分法无非是通过判断，舍弃一部分区间，直到达到条件。
+这里可以分别对左边和右边进行判断，左边在区间内，并且比中点小，left移动到中点，比中点大，right移动到左边点。右边同理。
+
+而且这里还有一个可以关注的点，对于（a+b）/2+1，当a<b时，必然在[a,b]区间内。同理，对于（a+b+1）/2-1，当a<b时，也必然在区间内。
+所以这题的中点取（a+b）/2时，只需要对右边进行判断就可以进行迭代了。不需要考虑左边，也不需要考虑右边存不存在。
+
+
+class Solution {
+public:
+    /**
+     * @param nums: a mountain sequence which increase firstly and then decrease
+     * @return: then mountain top
+     */
+    int mountainSequence(vector<int> &nums) {
+        // write your code here
+        int n = nums.size();
+        if(0==n){ return 0;}
+        int left = 0;
+        int right = n-1;
+        
+        while(left<right){
+            if(nums[(left+right)/2]>nums[(left+right)/2+1]){
+                right = (left+right)/2;
+            }
+            else{
+                left = (left+right)/2+1;
+            }
+        }
+        
+        return nums[left];
+        
+    }
+};

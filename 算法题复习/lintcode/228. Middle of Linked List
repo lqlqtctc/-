@@ -1,0 +1,44 @@
+Description
+
+Find the middle node of a linked list.
+
+思路：
+用快慢指针。
+
+考点：链表
+
+/**
+ * Definition of singly-linked-list:
+ * class ListNode {
+ * public:
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int val) {
+ *        this->val = val;
+ *        this->next = NULL;
+ *     }
+ * }
+ */
+
+class Solution {
+public:
+    /**
+     * @param head: the head of linked list.
+     * @return: a middle node of the linked list
+     */
+    ListNode * middleNode(ListNode * head) {
+        // write your code here
+        if(nullptr==head || nullptr==head->next){ return head;}
+        
+        ListNode * fast = head;
+        ListNode * slow = head;
+        
+        while(nullptr!=fast){
+            if(nullptr!=fast){ fast = fast->next;}
+            if(nullptr!=fast){ fast = fast->next;}
+            if(nullptr!=fast){ slow = slow->next;}
+        }
+        
+        return slow;
+    }
+};

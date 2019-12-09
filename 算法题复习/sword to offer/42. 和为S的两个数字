@@ -1,0 +1,43 @@
+题目描述
+输入一个递增排序的数组和一个数字S，在数组中查找两个数，使得他们的和正好是S，如果有多对数字的和等于S，输出两个数的乘积最小的。
+输出描述:
+对应每个测试案例，输出两个数，小的先输出。
+
+思路：
+双指针。
+一个指向数组第一个元素，一个指向最后一个元素。
+因为数组是升序数组，
+如果两个数加起来大于目标，代表最后一个数不可能参与匹配。这时候尾指针-1；
+如果两个数加起来小于目标，代表第一个数不可能参与匹配。这时候头指针+1；
+遇到的第一个相等的匹配就是乘积最小的匹配。
+
+考点：
+双指针。
+
+
+
+class Solution {
+public:
+    vector<int> FindNumbersWithSum(vector<int> array,int sum) {
+        int n = array.size();
+        int first = 0;
+        int last = n-1;
+        vector<int> result;
+        
+        while(first<last){
+            if(array[first] + array[last] == sum){
+                result.push_back(array[first]);
+                result.push_back(array[last]);
+                break;
+            }
+            else if(array[first] + array[last] > sum){
+                --last;
+            }
+            else if(array[first] + array[last] < sum){
+                ++first;
+            }
+        }
+        
+        return result;
+    }
+};

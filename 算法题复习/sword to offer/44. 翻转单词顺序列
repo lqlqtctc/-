@@ -1,0 +1,70 @@
+题目描述
+牛客最近来了一个新员工Fish，每天早晨总是会拿着一本英文杂志，写些句子在本子上。
+同事Cat对Fish写的内容颇感兴趣，有一天他向Fish借来翻看，但却读不懂它的意思。
+例如，“student. a am I”。后来才意识到，这家伙原来把句子单词的顺序翻转了，正确的句子应该是“I am a student.”。
+Cat对一一的翻转这些单词顺序可不在行，你能帮助他么？
+
+
+思路：
+
+根据空格分割，将单词存入栈，再从栈中取出。
+
+class Solution {
+public:
+    string ReverseSentence(string str) {
+        stack<string> words;
+        int n = str.size();
+        int first = 0;
+        int last = 0;
+        string result;
+         
+        for(int i=0; i<n; ++i){
+            if(str[i] != ' '){
+                ++last;
+            }
+            else{
+                words.push(str.substr(first, last-first));
+                first = last+1;
+                ++last;
+            }
+        }
+         
+        words.push(str.substr(first, last-first));
+         
+        while(!words.empty()){
+            result += words.top();
+            words.pop();
+            if(!words.empty()){
+                result += ' ';
+            }
+        }
+         
+        return result;
+    }
+};
+
+
+
+改进：
+
+从后往前找，找到空格就把子串加入result，最后加入最开始的单词。
+
+class Solution {
+public:
+    string ReverseSentence(string str) {
+        int n = str.size();
+        int last = n-1;
+        string result;
+        
+        for(int i=n-1; i>=0; --i){
+            if(str[i] == ' '){
+                result += str.substr(i+1, last-i);
+                result += ' ';
+                last = i-1;
+            }
+        }
+        result += str.substr(0, last+1);
+        
+        return result;
+    }
+};

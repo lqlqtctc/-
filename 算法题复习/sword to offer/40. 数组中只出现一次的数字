@@ -91,7 +91,6 @@ public:
     void FindNumsAppearOnce(vector<int> data,int* num1,int *num2) {
         int nonsum;
         int n = data.size();
-        int bit = 0;
          
         for(int i=0; i<n; ++i){
             nonsum = nonsum^data[i];

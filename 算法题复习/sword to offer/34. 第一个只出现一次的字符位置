@@ -1,0 +1,37 @@
+题目描述
+在一个字符串(0<=字符串长度<=10000，全部由字母组成)中找到第一个只出现一次的字符,并返回它的位置, 如果没有则返回 -1（需要区分大小写）.
+
+思路：
+因为字符串中只有字母，所以用128位的数组存每个字母的状态，一共3种状态。
+如果没有出现过为默认状态0：保存-1
+如果出现过一次为状态1：保存该字母的出现位置。
+如果出现超过一次为状态2：保存-2
+
+因为扫描数组比扫描字符串的平均查找长度少的多，所以扫描数组。
+扫描数组中大于零并且出现位置最小的数，输出。
+
+class Solution {
+public:
+    int FirstNotRepeatingChar(string str) {
+        vector<int> count(128, -1);
+        int n = str.size();
+        int address = -1;
+
+        for(int i=0; i<n; ++i){
+            if(count[str[i]] == -1){
+                count[str[i]] = i;
+            }
+            else if(count[str[i]]>=0){
+                count[str[i]] = -2;
+            }
+        }
+        
+        for(int i=0; i<128; ++i){
+            if(count[i]>=0){
+                address = (address==-1? count[i]: min(address, count[i]));
+            }
+        }
+        
+        return address;
+    }
+};

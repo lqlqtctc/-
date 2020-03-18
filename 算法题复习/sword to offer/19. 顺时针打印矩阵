@@ -1,0 +1,92 @@
+题目描述
+输入一个矩阵，按照从外向里以顺时针的顺序依次打印出每一个数字，例如，如果输入如下4 X 4矩阵：
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 则依次打印出数字1,2,3,4,8,12,16,15,14,13,9,5,6,7,11,10.
+
+
+思路：
+先往左，再往下，再往右，再往上，循环往复。
+所以只要设定好上面4种状态，每次只要符合条件就进行状态转换，类似有限状态机。
+将走过的路径设为-1.
+停止条件再额外设一个标志位sum。
+
+
+public:
+    vector<int> printMatrix(vector<vector<int> > matrix) {
+        int h = matrix.size();
+        int w = matrix[0].size();
+        int sum = 0;
+        vector<int> result;
+        int s = 0;
+        int i = 0, j = -1;
+        vector<vector<int> > dir(4, vector<int>(2,0));
+        dir[0][1] = 1;
+        dir[1][0] = 1;
+        dir[2][1] = -1;
+        dir[3][0] = -1;
+         
+        while(sum<4){
+            if(   i+dir[s][0]>=0
+               && i+dir[s][0]<h
+               && j+dir[s][1]>=0
+               && j+dir[s][1]<w
+               && matrix[i+dir[s][0]][j+dir[s][1]] != -1){
+                 
+                i += dir[s][0];
+                j += dir[s][1];
+                result.push_back(matrix[i][j]);
+                matrix[i][j] = -1;
+                 
+                sum = 0;
+            }
+            else{
+                ++sum;
+                s = (s+1)%4;
+            }
+             
+        }
+         
+        return result;
+    }
+};
+
+
+改进：
+不再把走过的路径变成-1，只要把四个边界设定好，每次达到边间换状态， 然后边界改变。
+
+
+class Solution {
+public:
+    vector<int> printMatrix(vector<vector<int> > matrix) {
+        int limit[4] = {0};
+        limit[1] = matrix[0].size();
+        limit[2] = matrix.size();
+        
+        int sum = 0;
+        vector<int> result;
+        int s = 0;
+        int i = 0, j = -1;
+        int dir[4][2] = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+        
+        while(sum<4){
+            if(   i+dir[s][0]>=limit[0]
+               && i+dir[s][0]<limit[2]
+               && j+dir[s][1]>=limit[3]
+               && j+dir[s][1]<limit[1]){
+                
+                i += dir[s][0];
+                j += dir[s][1];
+                result.push_back(matrix[i][j]);
+                matrix[i][j] = -1;
+                
+                sum = 0;
+            }
+            else{
+                ++sum;
+                limit[s%4] += (4-s)%4<2? 1: -1;
+                s = (s+1)%4;
+            }
+        }
+        
+        return result;
+    }
+};

@@ -1,0 +1,28 @@
+题目描述
+从上往下打印出二叉树的每个节点，同层节点从左至右打印。
+
+
+思路：
+由于不需要分层打印，所以只需要一个队列，将所有合适节点放入队列就行。
+
+
+class Solution {
+public:
+    vector<int> PrintFromTopToBottom(TreeNode* root) {
+        vector<int> result;
+        queue<TreeNode*> myque;
+        
+        if(root==nullptr){ return result;}
+        
+        myque.push(root);
+        
+        while(!myque.empty()){
+            if(myque.front()->left != nullptr){ myque.push(myque.front()->left);}
+            if(myque.front()->right != nullptr){ myque.push(myque.front()->right);}
+            result.push_back(myque.front()->val);
+            myque.pop();
+        }
+        
+        return result;
+    }
+};

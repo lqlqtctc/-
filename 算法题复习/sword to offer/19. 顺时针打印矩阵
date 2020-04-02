@@ -76,8 +76,6 @@ public:
                 i += dir[s][0];
                 j += dir[s][1];
                 result.push_back(matrix[i][j]);
-                matrix[i][j] = -1;
-                
                 sum = 0;
             }
             else{
